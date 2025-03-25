@@ -1,7 +1,7 @@
 # Debezium Streaming Solution
 
 This project demonstrates a streaming solution using Debezium with PostgreSQL, Kafka, on both local development mode using ```Docker```
- and AWS infrastructure ( to be done).
+ and AWS infrastructure(ongoing...).
 
 ## Local Development Setup
 
