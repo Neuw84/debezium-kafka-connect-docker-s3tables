@@ -1,14 +1,26 @@
 # Solution Architecture
 
 ## Overview
-The solution implements a real-time data streaming pipeline using Debezium for Change Data Capture (CDC) from PostgreSQL to Apache Kafka, with data processing using AWS Glue.
+The solution implements a real-time data streaming pipeline using Debezium for Change Data Capture (CDC) from PostgreSQL to Apache Kafka (using Kafka Connect Source), then uses Apache Iceberg Kafka Connect Sink (using Kafka Connect) for storing the data on Iceberg format on the Lake House.
+
+### Docker-Compose ( local mode)
 
 ```mermaid
 graph LR
     PostgreSQL[PostgreSQL Database] -->|CDC| Debezium[Debezium Connector]
-    Debezium -->|Streams changes| MSK[Amazon MSK/Kafka]
-    MSK -->|Data| Glue[AWS Glue Job]
-    Glue -->|Processes| S3[S3 Data Lake]
+    Debezium -->|Streams changes| Kafka[Apache Kafka]
+    Kafka -->|Consumes| Iceberg[Kafka Connect Iceberg]
+    Iceberg -->|Store data| S3[S3 Lake House]
+```
+
+### AWS
+
+```mermaid
+graph LR
+    PostgreSQL[Aurora PostgreSQL] -->|CDC| Debezium[Debezium Connector]
+    Debezium -->|Streams changes| MSK[Amazon MSK]
+    MSK -->|Data| Glue[Kafka Connect Iceberg]
+    Glue -->|Processes| S3[S3 Lake House]
 ```
 
 ## Components
