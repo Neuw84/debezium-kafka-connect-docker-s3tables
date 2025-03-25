@@ -1,6 +1,7 @@
 # Debezium Streaming Solution
 
-This project demonstrates a streaming solution using Debezium with PostgreSQL, Kafka, and AWS infrastructure.
+This project demonstrates a streaming solution using Debezium with PostgreSQL, Kafka, on both local development mode using ```Docker```
+ and AWS infrastructure ( to be done).
 
 ## Local Development Setup
 
@@ -28,27 +29,19 @@ This script will:
 docker-compose down -v
 ```
 
+### Components Overview 
+- PostgreSQL: Source database.
+- Debezium: Change Data Capture (CDC) tool deployed on top of Kafka Connect.
+- Apache Kafka: Message broker.
+- Iceberg Kafka Connect Sink: Kafka Connect Sink that uses Iceberg format.
+- Minio: high-performance, S3-compatible object storage system.
 
-## AWS Deployment
-
-1. Deploy the CloudFormation template:
-```bash
-aws cloudformation create-stack --stack-name debezium-stack --template-body file://deploy.yaml
-```
-
-2. Once the stack is created, you'll need to:
-   - Push the Debezium Connect image to ECR
-   - Configure the security groups and networking
-   - Set up the Debezium connector on ECS
 
 ## Architecture
 
 See [architecture.md](architecture.md) for a detailed architecture diagram and component description.
 
-### Components Overview
-- PostgreSQL: Source database
-- Debezium: Change Data Capture (CDC) tool
-- Apache Kafka: Message broker
-- AWS MSK: Managed Kafka service
-- AWS RDS: Managed PostgreSQL database
-- AWS ECS: Container orchestration for Debezium Connect
+
+
+
+
