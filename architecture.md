@@ -13,16 +13,6 @@ graph LR
     Iceberg -->|Store data| S3[S3 Lake House]
 ```
 
-### AWS
-
-```mermaid
-graph LR
-    PostgreSQL[Aurora PostgreSQL] -->|CDC| Debezium[Debezium Connector]
-    Debezium -->|Streams changes| MSK[Amazon MSK]
-    MSK -->|Data| Glue[Kafka Connect Iceberg]
-    Glue -->|Processes| S3[S3 Lake House]
-```
-
 ## Components
 
 ### Local Development Environment (Docker Compose)
@@ -47,6 +37,17 @@ graph LR
    - Runs as a separate container
 
 ### AWS Cloud Environment (CloudFormation)
+
+### AWS architecture
+
+```mermaid
+graph LR
+    PostgreSQL[Aurora PostgreSQL] -->|CDC| Debezium[Debezium Connector]
+    Debezium -->|Streams changes| MSK[Amazon MSK]
+    MSK -->|Data| Glue[Kafka Connect Iceberg]
+    Glue -->|Processes| S3[S3 Lake House]
+```
+
 1. **Amazon Aurora PostgreSQL**
    - Managed PostgreSQL database
    - Configured with logical replication
@@ -72,43 +73,3 @@ graph LR
    - Acts as a data lake for processed data
    - Provides durable storage
 
-## Deployment Instructions
-
-### Local Deployment
-1. Ensure Docker and Docker Compose are installed
-2. Clone the repository
-3. Run `docker-compose up -d`
-4. Execute setup script: `./scripts/setup.sh`
-5. Monitor logs using `docker-compose logs -f`
-
-### AWS Deployment
-1. Prerequisites:
-   - AWS CLI installed and configured
-   - Necessary IAM permissions
-
-2. CloudFormation Deployment:
-   ```bash
-   aws cloudformation create-stack \
-       --stack-name debezium-stack \
-       --template-body file://cloudformation.yaml \
-       --capabilities CAPABILITY_IAM
-   ```
-
-3. Post-deployment:
-   - Configure security groups
-   - Set up Debezium connector in MSK Connect
-   - Upload Python code to S3
-   - Start Glue job
-
-## Data Flow
-1. Data changes in PostgreSQL trigger WAL events
-2. Debezium captures changes and forwards to Kafka
-3. Changes are streamed through MSK
-4. Glue job processes the data
-5. Results stored in S3 data lake
-
-## Monitoring and Management
-- Use CloudWatch for AWS service monitoring
-- Docker logs for local environment
-- MSK Connect dashboard for connector status
-- Glue job logs for processing status
