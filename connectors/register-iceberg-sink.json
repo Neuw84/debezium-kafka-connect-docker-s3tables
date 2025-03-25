@@ -1,0 +1,20 @@
+{
+    "name": "iceberg-sink",
+    "config": {
+        "connector.class": "io.tabular.iceberg.connect.IcebergSinkConnector",
+        "topics": "ice.public.customers",
+        "iceberg.catalog.type": "rest",
+        "iceberg.catalog.uri": "http://iceberg-rest:8181",
+        "iceberg.catalog.client.region": "us-east-1",
+        "iceberg.catalog.s3.endpoint": "http://minio:9000",
+        "iceberg.tables": "my_database.customers_table",
+        "iceberg.control.mode": "create",
+        "iceberg.catalog.s3.path-style-access": "true",
+        "iceberg.tables.auto-create-enabled": "true",
+        "iceberg.tables.evolve-schema-enabled": "true",
+        "iceberg.control.commit.interval-ms": 180000,
+        "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+        "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "value.converter.schemas.enable": "false" 
+    }
+}
