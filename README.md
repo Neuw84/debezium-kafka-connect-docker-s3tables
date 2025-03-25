@@ -25,7 +25,7 @@ This script will:
 ## Cleaning up Local Development
 
 ```bash
-docker-compose down 
+docker-compose down -v
 ```
 
 
