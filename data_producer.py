@@ -11,6 +11,32 @@ DB_USER = os.getenv('POSTGRES_USER', 'postgres')
 DB_PASSWORD = os.getenv('POSTGRES_PASSWORD', 'postgres')
 DB_NAME = os.getenv('POSTGRES_DB', 'inventory')
 
+def create_database():
+    # Connect to default 'postgres' database first
+    conn = psycopg2.connect(
+        host=DB_HOST,
+        port=DB_PORT,
+        database=DB_NAME,
+        user=DB_USER,
+        password=DB_PASSWORD
+    )
+    conn.autocommit = True  # Required for creating database
+    cur = conn.cursor()
+    
+    # Check if database exists
+    cur.execute("SELECT 1 FROM pg_database WHERE datname = %s", (DB_NAME,))
+    exists = cur.fetchone()
+    
+    if not exists:
+        try:
+            cur.execute(f'CREATE DATABASE {DB_NAME}')
+            print(f"Created database {DB_NAME}")
+        except Exception as e:
+            print(f"Error creating database: {e}")
+    
+    cur.close()
+    conn.close()
+
 
 def get_database_connection():
     return psycopg2.connect(
@@ -61,6 +87,9 @@ def create_customers_table():
 
 def main():
     try:
+        # Create database if it doesn't exist
+        create_database()
+
         # Create the customers table if it doesn't exist
         create_customers_table()
         print("Initialized customers table")
