@@ -21,7 +21,13 @@ This script will:
 - Wait for all services to be ready
 - Register the Postgres source connector
 - Register the Iceberg sink connector
-- Start the data producer
+
+## Cleaning up Local Development
+
+```bash
+docker-compose down 
+```
+
 
 ## AWS Deployment
 
