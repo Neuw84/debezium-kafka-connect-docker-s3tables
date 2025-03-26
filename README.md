@@ -37,24 +37,9 @@ docker-compose down -v
 - Minio: high-performance, S3-compatible object storage system.
 
 
-## AWS Deployment setup ( ongoing)
-1. Prerequisites:
-   - AWS CLI installed and configured
-   - Necessary IAM permissions
+## AWS Deployment setup
 
-2. CloudFormation Deployment:
-   ```bash
-   aws cloudformation create-stack \
-       --stack-name debezium-stack \
-       --template-body file://cloudformation.yaml \
-       --capabilities CAPABILITY_IAM
-   ```
-
-3. Post-deployment:
-   - Configure security groups
-   - Set up Debezium connector in MSK Connect
-   - Upload Python code to S3
-   - Start Glue job
+Use the CF template provided in ```infrastructure.yml``` file and follow the instructions of the Medium [blogpost](https://medium.com/@neuw84/using-debezium-and-kafka-connect-with-iceberg-part-ii-0c5ecea68c5e).
 
 ### Data Flow
 
