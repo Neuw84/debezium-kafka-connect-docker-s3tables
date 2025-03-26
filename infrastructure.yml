@@ -307,40 +307,40 @@ Resources:
         Status: Suspended
 
   # MSK Connect
-MSKConnectRole:
-  Type: AWS::IAM::Role
-  Properties:
-    AssumeRolePolicyDocument:
-      Version: '2012-10-17'
-      Statement:
-        - Effect: Allow
-          Principal:
-            Service: kafkaconnect.amazonaws.com
-          Action: sts:AssumeRole
-    Policies:
-      - PolicyName: GlueFullAccess
-        PolicyDocument:
-          Version: '2012-10-17'
-          Statement:
-            - Effect: Allow
-              Action:
-                - glue:*
-              Resource: 
-                - !Sub arn:aws:glue:${AWS::Region}:${AWS::AccountId}:catalog
-                - !Sub arn:aws:glue:${AWS::Region}:${AWS::AccountId}:database/*
-                - !Sub arn:aws:glue:${AWS::Region}:${AWS::AccountId}:table/*
-      - PolicyName: S3BucketAccess
-        PolicyDocument:
-          Version: '2012-10-17'
-          Statement:
-            - Effect: Allow
-              Action:
-                - s3:*
-              Resource:
-                - !Sub arn:aws:s3:::${S3Bucket}
-                - !Sub arn:aws:s3:::${S3Bucket}/*
-    ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/service-role/AmazonTablesS3FullAccess
+  MSKConnectRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: kafkaconnect.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: GlueFullAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - glue:*
+                Resource: 
+                  - !Sub arn:aws:glue:${AWS::Region}:${AWS::AccountId}:catalog
+                  - !Sub arn:aws:glue:${AWS::Region}:${AWS::AccountId}:database/*
+                  - !Sub arn:aws:glue:${AWS::Region}:${AWS::AccountId}:table/*
+        - PolicyName: S3BucketAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:*
+                Resource:
+                  - !Sub arn:aws:s3:::${S3Bucket}
+                  - !Sub arn:aws:s3:::${S3Bucket}/*
+      ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/AmazonS3TablesFullAccess
 
 
 Outputs:
