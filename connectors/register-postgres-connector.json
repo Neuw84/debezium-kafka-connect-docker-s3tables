@@ -12,7 +12,8 @@
         "schema.include.list": "public",
         "table.include.list": "public.customers",
         "topic.prefix":"ice",
-        "plugin.name": "pgoutput"
-
+        "plugin.name": "pgoutput",
+        "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "key.converter": "org.apache.kafka.connect.json.JsonConverter"
     }
 }
