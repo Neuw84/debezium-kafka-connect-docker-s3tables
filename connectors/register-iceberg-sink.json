@@ -2,18 +2,25 @@
     "name": "iceberg-sink",
     "config": {
         "connector.class": "io.tabular.iceberg.connect.IcebergSinkConnector",
-        "topics": "ice.public.customers",
+        "topics": "ice.public.customers,ice.public.products,ice.public.orders,ice.public.order_items",
         "iceberg.catalog.type": "rest",
         "iceberg.catalog.uri": "http://rest:8181",
         "iceberg.catalog.client.region": "us-east-1",
         "iceberg.catalog.s3.endpoint": "http://minio:9000",
-        "iceberg.tables": "my_database.customers_table",
+        "iceberg.tables": "my_database.customers_table,my_database.products_table,my_database.orders_table,my_database.order_items_table",
+        "iceberg.tables.mapping": "ice.public.customers:my_database.customers_table,ice.public.products:my_database.products_table,ice.public.orders:my_database.orders_table,ice.public.order_items:my_database.order_items_table",
         "iceberg.control.mode": "create",
         "iceberg.catalog.s3.path-style-access": "true",
         "iceberg.tables.auto-create-enabled": "true",
         "iceberg.tables.evolve-schema-enabled": "true",
-        "iceberg.control.commit.interval-ms": 180000,
+        "iceberg.control.commit.interval-ms": 60000,
+        "iceberg.tables.auto-create-props.write.format.default": "parquet",
+        "iceberg.tables.auto-create-props.write.parquet.compression-codec": "snappy",
+        "iceberg.tables.auto-create-props.write.target-file-size-bytes": "134217728",
         "key.converter": "org.apache.kafka.connect.json.JsonConverter",
-        "value.converter": "org.apache.kafka.connect.json.JsonConverter"
+        "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "errors.tolerance": "all",
+        "errors.log.enable": "true",
+        "errors.log.include.messages": "true"
     }
 }
