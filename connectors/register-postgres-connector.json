@@ -10,10 +10,22 @@
         "database.dbname": "inventory",
         "database.server.name": "dbserver1",
         "schema.include.list": "public",
-        "table.include.list": "public.customers",
+        "table.include.list": "public.customers,public.products,public.orders,public.order_items",
         "topic.prefix":"ice",
         "plugin.name": "pgoutput",
         "value.converter": "org.apache.kafka.connect.json.JsonConverter",
-        "key.converter": "org.apache.kafka.connect.json.JsonConverter"
+        "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "heartbeat.interval.ms": "5000",
+        "snapshot.mode": "initial",
+        "transforms": "unwrap",
+        "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+        "transforms.unwrap.drop.tombstones": "false",
+        "transforms.unwrap.delete.handling.mode": "rewrite",
+        "transforms.unwrap.add.fields": "op,table,lsn,source.ts_ms",
+        "tombstones.on.delete": "true",
+        "provide.transaction.metadata": "true",
+        "max.batch.size": "2048",
+        "max.queue.size": "8192",
+        "poll.interval.ms": "100"
     }
 }
