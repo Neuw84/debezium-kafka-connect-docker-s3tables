@@ -16,9 +16,20 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=inventory
+      - DATA_TABLES=customers,products,orders
+      - INSERT_INTERVAL_MIN=2
+      - INSERT_INTERVAL_MAX=5
+      - MAX_RETRIES=3
+      - RETRY_DELAY=5
     volumes:
       - ./:/app
     command: python /app/data_producer.py
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect(('postgres', 5432))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   create-buckets:
     image: minio/mc
